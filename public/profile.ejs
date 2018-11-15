@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include partials/head %>
+
+    <link rel="stylesheet" href="css/profile.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <div class="preloader">
+        <div class="preloader-ring"></div>
+    </div>
+
+    <% include partials/header %>
+
+    <!-- three.js -->
+
+    <div id="webgl-output"></div>
+
+    <div class="bg-mask"></div>
+    <div class="uk-position-center main-content ">
+
+        <div class="container" id="style-7" style="padding-top: 150px">
+
+
+            <table class="table">
+                <thead>
+                    <div>
+                        <h1 style="text-align:center">
+                            <span>Profile</span>
+                        </h1>
+                    </div>
+                </thead>
+                <tbody style="padding-top:40px">
+
+                    <tr>
+                        <td class="head-font">Name</td>
+                        <td class="body-font">
+                            <%- user.name %>
+                        </td>
+                        <td></td>
+                        <td class="head-font">Contact Number</td>
+                        <td class="body-font">
+                            <%- user.phoneNumber %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="head-font">Email</td>
+                        <td class="body-font">
+                            <%- user.email %>
+                        </td>
+                        <td></td>
+                        <td class="head-font">College</td>
+                        <td class="body-font">
+                            <%- user.college %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="head-font">City</td>
+                        <td class="body-font">
+                            <%- user.city %>
+                        </td>
+                        <td></td>
+                        <td class="head-font">Year</td>
+                        <td class="body-font">
+                            <%- user.year %>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div>
+                <h1 id="prof" class="uk-align-center sub-heading">
+                    <span>Registered Events</span>
+                </h1>
+            </div>
+            <div>
+                <% if(user.rEvents.length === 1) { %>
+                <div>
+                    No events to display.
+                </div>
+                <% } else { %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="head-font uk-text-center">Event Name</th>
+                            <th class="head-font uk-text-center">Team Size</th>
+                            <th class="head-font uk-text-center">Payment Status</th>
+                            <th class="head-font uk-text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%   for(var i=1; i<user.rEvents.length; i++) { %>
+                        <tr>
+                            <td class="body-font uk-text-center">
+                                <%= user.rEvents[i].event.eventName %>
+                            </td>
+                            <td class="body-font uk-text-center">
+                                <%= user.rEvents[i].team.length %>
+                            </td>
+                            <td class="body-font uk-text-center">
+                                <%= user.rEvents[i].status %>
+                            </td>
+                            <td class="body-font uk-text-center link-text">
+                                <a href="/pdf/view/<%= user.rEvents[i].orderId %>" target="_blank">View</a>
+                                <br>
+                                <a href="#" id="payNow<%= i %>">Pay</a>
+                                <script>
+                                    $("#payNow<%= i %>").click(function (e) {
+                                        e.preventDefault();
+                                        var name,
+                                            form = document.createElement("form"),
+                                            node = document.createElement("input");
+
+
+
+                                        form.action =
+                                            "/payment/initiate/<%= user.rEvents[i].event.payName %>";
+                                        form.method = 'POST';
+
+
+                                        node.name = 'orderId';
+                                        node.value = "<%= user.rEvents[i].orderId %>";
+                                        form.appendChild(node.cloneNode());
+
+
+                                        form.style.display = "none";
+                                        document.body.appendChild(form);
+
+                                        form.submit();
+
+                                        document.body.removeChild(form);
+                                    });
+                                </script>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <% }  %>
+            </div>
+
+            <div style="padding-top:20px">
+
+                <h1 id="prof" class="uk-align-center sub-heading">
+                    <span>Registered Events</span>
+                </h1>
+            </div>
+            <div>
+                <% if(user.events.length === 1) { %>
+                <div>
+                    No events to display.
+                </div>
+                <% } else { %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="head-font uk-text-center">Event Name</th>
+                            <th class="head-font uk-text-center">Team Size</th>
+                            <th class="head-font uk-text-center">Payment Status</th>
+                            <th class="head-font uk-text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%   for(var i=1; i<user.events.length; i++) { %>
+                        <tr>
+                            <td class="body-font uk-text-center">
+                                <%= user.events[i].event.eventName %>
+                            </td>
+                            <td class="body-font uk-text-center">
+                                <%= user.events[i].team.length %>
+                            </td>
+                            <td class="body-font uk-text-center">
+                                <%= user.events[i].status %>
+                            </td>
+                            <td class="body-font uk-text-center link-text">
+                                <a href="/pdf/generate/<%= user.events[i].orderId %>" target="_blank">Receipt</a>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <% }  %>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    </div>
+
+
+    <% include partials/footer %>
+
+
+
+
+
+    </div>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/scrollmagic.js"></script>
+    <script src="js/sphere.js"></script>
+    <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="js/redirect.js "></script>
+    <script>
+        window.addEventListener('load', function () {
+
+            var el = document.querySelector('.preloader');
+            el.style.opacity = 5;
+
+            (function fade() {
+                if ((el.style.opacity -= 0.15) < 0) {
+                    window.scrollTo(0, 0);
+                    el.style.display = "none";
+                    controls.redraw();
+                    controls.rend();
+                    controls.start();
+                } else {
+                    requestAnimationFrame(fade);
+                }
+            })();
+        });
+    </script>
+    <script>
+        if (screen.width > 769) {
+            function remove() {
+                var elem = document.getElementById('rlbuttn');
+                elem.parentNode.removeChild(elem);
+                return false;
+            }
+            remove();
+        }
+    </script>
+</body>
+
+</html>

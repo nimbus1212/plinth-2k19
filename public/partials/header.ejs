@@ -78,29 +78,6 @@
 
             </a>
 
-            <% if(isLoggedIn){ %>
-            <ul class="header__nav">
-                <li class="nav-item dropdown" id="rlbuttn_menu">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        Hi,
-                        <%- user.name %>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-
-                        <a class="dropdown-item" href="/profile">Profile</a>
-
-
-                        <a class="dropdown-item" href="/user/logout">LogOut</a>
-
-                    </div>
-                </li>
-                <% } else { %>
-
-                <button class="regi_lo" id="rlbuttn" data-toggle="modal" data-target="#exampleModalCenter">Login|Register</button>
-                <% } %>
-            </ul>
-
             <nav>
                 <ul class="header__nav">
                     <li <%if(page=="home" ){%>class="pg-active"
